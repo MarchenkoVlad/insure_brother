@@ -6,6 +6,8 @@ class Company(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.name
 
 class Service(models.Model):
     id = models.AutoField(primary_key=True)
@@ -22,6 +24,9 @@ class Service(models.Model):
     min_term = models.IntegerField()
     min_payment = models.IntegerField()
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 class Customer(models.Model):
