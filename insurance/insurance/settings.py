@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'insure_brother.apps.Insure_brotherConfig'
+    'phonenumber_field',
+    'insure_brother.apps.InsureBrotherConfig'
 ]
 
 MIDDLEWARE = [
