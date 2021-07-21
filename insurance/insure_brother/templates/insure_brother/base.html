@@ -1,12 +1,138 @@
 <!DOCTYPE html>
 <html lang="ru">
+<style>
+html {
+    height: 100%;
+}
+body {
+    font-family: 'Lato', sans-serif;
+    color: white;
+    background-color: rgb(168 226 247);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+}
+
+header {
+    background: rgb(10 138 228);
+    flex: 0 0 auto;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+}
+nav, footer, header, section {
+    display: block;
+}
+
+.body_wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+footer {
+    flex: 0 0 auto;
+
+}
+
+.content {
+    flex: 1 0 auto;
+
+}
+
+.wrapper, .header_container, footer {
+	max-width: 1170px;
+	margin: 0 auto;
+	width: 100%;
+}
+
+.header_body {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header_title {
+    flex: 1 1 auto;
+}
+
+.header_menu_list {
+    display: flex;
+}
+
+.table_services {
+    border: 1px solid #000000;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px
+}
+
+.table {
+    display: flex;
+    justify-content: space-between;
+}
+
+section {
+    display: flex;
+    flex-wrap:wrap;
+    flex-direction: column;
+}
+
+.table_header {
+    width: 20%;
+
+}
+
+.table_title, .service {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+</style>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Биржа страховых услуг</title>
+    {% load static %}
+    <link rel="stylesheet"  href="{%  static  'insure_brother/style.css'  %}">
+    
 </head>
 <body>
-    {% block content %} {% endblock %}
+    <header>
+        <div class="header_container">
+            <div class="header_body">
+                <div class="header_title">
+                    <h2>Биржа страховых услуг "Застрахуй братуху" </h2>
+                </div>
+                <nav class="header_menu">
+                    <ul class="header_menu_list">
+                        <li>
+                            <a href="{% url 'home' %}">Главная</a> 
+                        </li>
+                        <li>
+                            <a href="#">Для страховых компаний</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        
+    </header>
+    <div class="content">
+        {% block content %} {% endblock %}
+    </div>
+
+    <footer>
+        <div>
+            <p>
+                © 2010–2021, ООО «Застрахуй братуху», официальный сайт, лицензия РФ № 12345.
+                Сайт является информационным агентом и не несет ответственности за качество предоставляемых услуг.
+                Услуги страхования оказывают лицензированные на территории РФ страховые компании.
+            </p>
+        </div>
+    </footer>
 </body>
 </html>
