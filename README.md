@@ -14,7 +14,7 @@
 * Django
 * Docker Compose
 
-### Запуск
+## Запуск приложения
 
 ```docker-compose up -d```
 
