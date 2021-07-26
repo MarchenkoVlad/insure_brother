@@ -9,27 +9,27 @@ from .models import Service
 from .form import Filtration
 
 
-class Main(ListView):
+class Home(ListView):
     '''
     Главная страница
     '''
     model = Service
     template_name = 'insure_brother/home.html'
-    context_object_name = 'Service'
+    context_object_name = 'services'
 
 
     def get_queryset(self):
         '''
-        производит филтрацию во выбранным параметрам
+        фильтрует по выбранным параметрам
         '''
         filter = Filtration(data=self.request.GET)
         return filter.filter(super().get_queryset())
 
     def get_context_data(self, **kwargs):
         '''
-        Добовляет форму для филтрации
+        создает форму фильтрации
         '''
-        context = super(Main, self).get_context_data(**kwargs)
+        context = super(Home, self).get_context_data(**kwargs)
         context['form'] = Filtration(data = self.request.GET)
         return context
 

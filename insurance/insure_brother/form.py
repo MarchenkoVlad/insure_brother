@@ -1,4 +1,4 @@
-mport copy
+import copy
 import re
 
 from django import forms
@@ -11,13 +11,16 @@ class Filtration (forms.Form):
     """ фильтрация услуг"""
     def add_all_fields_for_selection(list_choices):
         """функция добавляет для выбора все имеющиеся поля """
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print(list_choices)
         final_result = [("Все", "Все")]
         for one_choice in list_choices:
             final_result.append(one_choice)
+        return final_result
 
     
-    category = forms.ChoiceField(label = "вид услуги",
-                                choices = add_all_fields_for_selection(list(map(lambda one_services: (one_services.name, one_services.name), Service.objects.all()))))
+    category = forms.ChoiceField(label = "Вид услуги",
+                                choices = add_all_fields_for_selection(list(map(lambda one_services: (one_services.category, one_services.category), Service.objects.all()))))
     
     min_term = forms.IntegerField(label = "Срок страхования от (мес)", min_value = 1,
                                        required=False) 
