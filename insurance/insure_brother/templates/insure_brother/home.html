@@ -1,71 +1,30 @@
-{% extends "insure_brother/base.html" %}
+{{% extends "insure_brother/base.html" %}
 
 {% block content %}
 
-
 <div class="wrapper">
-    <h3>Услуги страховых компаний</h3>
+    <h2>Страховые компании и их услуги</h2>
 
-        <div class="table">
-            <div class="table_title">
-                <div class="table_header">
-                    <div class="company">
-                        <span>Компания</span>
-                    </div>
-                </div>
-                <div class="table_header">
-                    <div class="service_name">
-                        <span>Название услуги</span>
-                    </div>
-                </div>
-                <div class="table_header">
-                    <div class="service_type">
-                        <span>Вид услуги</span>
-                    </div>
-                </div>
-                <div class="table_header">
-                    <div class="min_sum">
-                        <span>"Минимальная сумма"
-                            <br>
-                            "покрытия, ₽"
-                        </span>
-                    </div>
-                </div>
-                <div class="table_header">
-                    <div class="service_type">
-                        <span>"Минимальная срок"
-                            <br>
-                            "страхования, мес"
-                        </span>
-                    </div>
-                </div>
-            </div>
-           
-            {% for service in services %}
-            <div class="service">
-                <div>
-                    <p> {{ service.company }}</p>
-                </div>
-                <div>
-                    <p> {{ service.name }}</p>
-                </div>
-                <div>
-                    <p> {{ service.category }}</p>
-                </div>
-                <div>
-                    <p> {{ service.min_payment }}</p>
-                </div>
-                <div>
-                    <p> {{ service.min_term}}</p>
-                </div>
-                <div>
-                    <button type="submit">Купить</button>
-                </div>
-            </div>
-            {% endfor %}    
-        </div>
+
+    <form method="get">
+        {{ filter.form.as_p }}
+        <input type="submit" />
+    </form>
+
+    {% for service in services %}
+    <div class="service">
+        <b>Компания: </b> <span>{{ service.company.name }}</span> <br>
+        <b>Дата начала работы компании: </b> <span>{{ service.company.date_creat}}</span><br>
+        <b>Вид страховой услуги: </b> <span>{{ service.category }}</span><br>
+        <b>Название услуги:  </b> <span> {{ service.name }}</span><br>
+        <b>Стоимость услуги от:  </b> <span>{{ service.min_price }} &#8381</span><br>
+        <b>Минимальный срок страхования: </b> <span>{{ service.min_term }} мес.</span><br>
+        <b>Минимальная сумма выплаты от: </b> <span>{{ service.min_payment }} &#8381</span><br>
+        <b>Максимальная сумма выплаты до: </b> <span>{{ service.max_payment }} &#8381</span><br>
+        <b>Дополнительная информация о услуге: </b> <span>{{ service.description }}</span><br>
+        <input type="button"  value="Хочу купить">
+    </div>
+    {% endfor %}
     
 </div>
-
-
 {% endblock %}

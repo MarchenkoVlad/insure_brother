@@ -60,36 +60,23 @@ footer {
 
 .header_menu_list {
     display: flex;
-}
-
-.table_services {
-    border: 1px solid #000000;
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 16px
-}
-
-.table {
-    display: flex;
     justify-content: space-between;
 }
 
-section {
-    display: flex;
-    flex-wrap:wrap;
-    flex-direction: column;
+.service {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    outline: 2px solid #000;
+    border: 3px solid #fff;
+    border-radius: 10px;
 }
 
-.table_header {
-    width: 20%;
 
-}
 
-.table_title, .service {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
+
+
+
 </style>
 <head>
     <meta charset="UTF-8">
@@ -108,14 +95,23 @@ section {
                     <h2>Биржа страховых услуг "Застрахуй братуху" </h2>
                 </div>
                 <nav class="header_menu">
-                    <ul class="header_menu_list">
-                        <li>
+                    <div class="header_menu_list">
+                        <div>
                             <a href="{% url 'home' %}">Главная</a> 
-                        </li>
-                        <li>
-                            <a href="#">Для страховых компаний</a>
-                        </li>
-                    </ul>
+                        </div>
+                        <div>
+                        {% if request.user.is_authenticated %}
+                            <br>
+                                <a href="#">Личный кабинет компании </a>
+                            <br>
+                            <a href="#">Выйти </a>
+                        {% else %}
+                            <a href="#">Зарегистроваться</a>
+                            <br>
+                            <a href=#>Войти </a>
+                        {% endif %}
+                        </div>
+                    </div>
                 </nav>
             </div>
         </div>
