@@ -1,12 +1,13 @@
-from django.shortcuts import render
-from django_filters.rest_framework import DjangoFilterBackend
-from django.views.generic import ListView
+from django.shortcuts import render, HttpResponse, redirect
+from django.views.generic import ListView, CreateView
+from django.contrib.auth import logout
+from django.conf import settings
 
-from .query import get_services
-#from .filter import ServiceFilter
-from .models import Service
+from .query import get_services, get_all_company_user_by_service_id
+from .models import Service, Customer
+from .form import Filtration, CustomerForm
+from insurance import celery
 
-from .form import Filtration
 
 
 class Home(ListView):
@@ -33,18 +34,36 @@ class Home(ListView):
         context['form'] = Filtration(data = self.request.GET)
         return context
 
-"""
 
-def home(request):
-    services = get_services()
-    form
-    filter_backends = (DjangoFilterBackend)
-    current_filter = ServiceFilter(request.GET, queryset=Service.objects.all() )
-    context = {
-        'services': services,
-        'filter': current_filter,
-    }
-    return render(request, 'insure_brother/home.html', context)
-"""
-def admin(request):
-    pass
+def create_customer_form(request):
+    """запускает проверку валидности, создает клиента в БД и отправляет информацию сотруднику компании о создании"""
+    form = CustomerForm(request.POST)
+    if form.is_valid():
+        subject = "Новый клиент"
+        message = f"У вас новая заявка от клиента. Информация о клиенте: \
+          имя: {form.data.get('name')} \
+          телефон: {form.data.get('phone')} \
+          email: {form.data.get('email')}"
+        email_from = settings.EMAIL_HOST_USER  
+        recipient_list = get_all_company_user_by_service_id(form.data.get('id'))
+        form.save()
+        celery.send_task_email.delay(subject, message, email_from, recipient_list)
+        return HttpResponse("Данные получены")
+    else:
+        return HttpResponse("Ошибки в формате данных")
+
+
+def user_logout(request):
+    '''
+    выход из аккаунта
+    '''
+    logout(request)
+    return redirect("home")
+
+
+class Register(CreateView):
+    template_name = 'register.html'
+    
+
+def admin_company(request):
+    return redirect("insure_brother/admin_company.html")
