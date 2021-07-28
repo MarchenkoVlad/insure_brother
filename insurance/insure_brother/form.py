@@ -5,13 +5,13 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
 
+from bootstrap_modal_forms.forms import BSModalForm, BSModalModelForm
+
 from .models import Service, Company, Customer
 
 class Filtration (forms.Form):
     """ фильтрация услуг"""
     def add_all_fields_for_selection(list_choices):
-        """функция добавляет для выбора все имеющиеся поля """
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         print(list_choices)
         final_result = [("Все", "Все")]
         for one_choice in list_choices:
@@ -97,3 +97,18 @@ class Filtration (forms.Form):
             return qs.order_by("min_price")
         else:
             return qs.order_by("-min_price")
+
+
+class CustomerForm(forms.Form):
+    """ класс для сохранения данных клиента"""
+    class Meta:
+        model = Customer
+        fields = ['name', 'phone', 'email', 'id']
+
+    def save(self):
+        current_customer = Customer(name = self.data.get('name'),
+                                        phone = self.data.get('phone'),
+                                        email = self.data.get('email'),
+                                        service = Service.objects.get(id = int(self.data.get('id'))))
+
+        current_customer.save()
