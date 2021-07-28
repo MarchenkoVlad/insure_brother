@@ -22,9 +22,11 @@
         <b>Минимальная сумма выплаты от: </b> <span>{{ service.min_payment }} &#8381</span><br>
         <b>Максимальная сумма выплаты до: </b> <span>{{ service.max_payment }} &#8381</span><br>
         <b>Дополнительная информация о услуге: </b> <span>{{ service.description }}</span><br>
-        <input type="button"  value="Хочу купить">
+        <input type="submit" onclick="create_customer_form({{ service.id }})" value="Купить">
+        
     </div>
     {% endfor %}
     
 </div>
 {% endblock %}
+

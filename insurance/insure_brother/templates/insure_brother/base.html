@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <style>
@@ -74,12 +75,13 @@ footer {
 
 </style>
 
+
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Биржа страховых услуг</title>
-    {% load static %}
     <link rel="stylesheet"  href="{%  static  'insure_brother/style.css'  %}">
 </head>
 
@@ -97,14 +99,11 @@ footer {
                         </div>
                         <div>
                         {% if request.user.is_authenticated %}
-                            <br>
-                                <a href="#">Личный кабинет компании </a>
-                            <br>
-                            <a href="#">Выйти </a>
+                            <a href="% url 'admin:index' %}">Личный кабинет компании </a>
+                            <a href="{% url 'logout' %}">Выйти </a>
                         {% else %}
-                            <a href="#">Зарегистроваться</a>
-                            <br>
-                            <a href=#>Войти </a>
+                            <a href="register">Зарегистроваться</a>
+                            <a href="{% url 'admin:index' %}">Войти </a>
                         {% endif %}
                         </div>
                     </div>
@@ -126,5 +125,27 @@ footer {
             </p>
         </div>
     </footer>
+
+    <script>
+   
+    
+        function create_customer_form(id){
+                    let name = prompt('Укажите ваше имя');
+                    let phone = prompt('Укажите номер телефона');
+                    let email = prompt('Укажите email');
+
+                    let formData = new FormData();
+                    formData.append('name', name);
+                    formData.append('phone', phone);
+                    formData.append('email', email);
+                    formData.append('id', id);
+                  //  formData.append('csrf_token', '{{csrf_token}}');
+                    
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("POST", "/create_customer_form/");
+                    xhr.send(formData);
+        
+                }
+        </script>
 </body>
 </html>
