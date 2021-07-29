@@ -1,52 +1,36 @@
 version: '3.8'
 
 services:
-  web:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/usr/src/app/
-    ports:
-      - 1337:8000
-    environment:
-      - DEBUG=1
-      - SECRET_KEY=dbaa1_i7%*3r9-=z-+_mz4r-!qeed@(-a_r(g@k8jo8y3r27%m
-      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
-      - CELERY_BROKER=redis://redis:6379/0
-      - CELERY_BACKEND=redis://redis:6379/0
-    depends_on:
-      - redis
-
-  celery:
-    build: .
-    command: celery worker --app=core --loglevel=info --logfile=logs/celery.log
-    volumes:
-      - .:/usr/src/app/
-    environment:
-      - DEBUG=1
-      - SECRET_KEY=dbaa1_i7%*3r9-=z-+_mz4r-!qeed@(-a_r(g@k8jo8y3r27%m
-      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
-      - CELERY_BROKER=redis://redis:6379/0
-      - CELERY_BACKEND=redis://redis:6379/0
-    depends_on:
-      - web
-      - redis
-
   redis:
-    image: redis:6-alpine
+    env_file:
+      - ".env"
+    image: "redis:5.0.4-stretch"
+    volumes:
+      - "redis:/data"
 
-  dashboard:
-    build: .
-    command:  flower -A core --port=5555 --broker=redis://redis:6379/0
-    ports:
-      - 5555:5555
-    environment:
-      - DEBUG=1
-      - SECRET_KEY=dbaa1_i7%*3r9-=z-+_mz4r-!qeed@(-a_r(g@k8jo8y3r27%m
-      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
-      - CELERY_BROKER=redis://redis:6379/0
-      - CELERY_BACKEND=redis://redis:6379/0
+  web:
+    build:
+      context: "."
+    command: python manage.py runserver 0.0.0.0:8000
     depends_on:
-      - web
-      - redis
-      - celery
+      - "redis"
+    env_file:
+      - ".env"
+    ports:
+      - "${DOCKER_WEB_PORT:-127.0.0.1:8000}:8000"
+    volumes:
+      - "${DOCKER_WEB_VOLUME:-./public:/app/public}"
+
+  worker:
+    build:
+      context: "."
+    command: celery worker -A insurance --loglevel=info
+    depends_on:
+      - "redis"
+    env_file:
+      - ".env"
+    volumes:
+      - "${DOCKER_WEB_VOLUME:-./public:/app/public}"
+
+volumes:
+  redis: {}
