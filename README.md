@@ -13,8 +13,12 @@
 * Python
 * Django
 * Docker Compose
+* Celery
+* Redis
 
 ## Запуск приложения
+Перед запуском приложения необходимо создать файл ```.env```, в нем указать переменые почты и пароля ```EMAIL_HOST_USER=example@gmail.com``` и
+```EMAIL_HOST_PASSWORD= pass```. С указанной почты будет производиться отправка электронных писем.
 
 ```docker-compose up -d```
 
@@ -29,3 +33,4 @@
 ```pip3 install -r requirements.txt```
 
 ```export $(xargs <.env)```
+```python manage.py runserver ```
