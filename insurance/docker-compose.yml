@@ -1,6 +1,15 @@
 version: '3.8'
 
 services:
+  es:
+    env_file:
+      - ".env"
+    image: elasticsearch:7.8.1
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9600:9200"
+
   redis:
     env_file:
       - ".env"
@@ -11,9 +20,12 @@ services:
   web:
     build:
       context: "."
-    command: python manage.py runserver 0.0.0.0:8000
+    command: >
+      sh -c " 
+             python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - "redis"
+      - "es"
     env_file:
       - ".env"
     ports:

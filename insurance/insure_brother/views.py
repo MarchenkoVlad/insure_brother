@@ -6,6 +6,7 @@ from django.conf import settings
 from .query import get_services, get_all_company_user_by_service_id
 from .models import Service, Customer
 from .form import Filtration, CustomerForm
+from .elastic import search
 from insurance import celery
 
 
@@ -30,7 +31,14 @@ class Home(ListView):
         '''
         создает форму фильтрации
         '''
+        search_query = self.request.GET.get('search')
+
         context = super(Home, self).get_context_data(**kwargs)
+
+        if search_query:
+            context_object_name = search(search_query)
+            context['services'] = context_object_name.to_queryset()
+
         context['form'] = Filtration(data = self.request.GET)
         return context
 

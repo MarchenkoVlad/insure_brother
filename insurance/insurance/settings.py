@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 
 from pathlib import Path
-
+from elasticsearch_dsl import connections
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'phonenumber_field',
     'insure_brother.apps.InsureBrotherConfig',
+    'django_elasticsearch_dsl',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +143,12 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+
+# setting ELASTICSEARCH_DSL
+ELASTICSEARCH_DSL={
+    'default': {
+        'hosts': 'es:9200'
+    },
+}
+
+#connections.create_connection(hosts=['localhost'], timeout=20)
