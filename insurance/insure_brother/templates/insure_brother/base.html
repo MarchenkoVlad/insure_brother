@@ -146,6 +146,13 @@ footer {
                     xhr.send(formData);
         
                 }
+
+        function search() {
+            let search_input = document.querySelector('#search');
+            let search_data = search_input.value;
+            document.location = `/home/?search=${search_data}`;
+
+        }
         </script>
 </body>
 </html>
