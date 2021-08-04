@@ -17,10 +17,9 @@
 * Redis
 
 ## Запуск приложения
-Перед запуском приложения необходимо создать файл ```.env```, в нем указать переменые почты и пароля ```EMAIL_HOST_USER=example@gmail.com``` и
-```EMAIL_HOST_PASSWORD= pass```. С указанной почты будет производиться отправка электронных писем.
 
 ```docker-compose up -d```
+
 ```docker-compose run web python manage.py search_index --rebuild```
 
 Команды для запуска без докера:
